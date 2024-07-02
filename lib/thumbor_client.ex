@@ -20,8 +20,8 @@ defmodule ThumborClient do
   "VMKhXMULBn4h1UC52W3YliEgFfg="
   """
   def encrypt_to_thumbor(secret, path) do
-    :crypto.hmac(:sha, secret, path)
-    |> Base.url_encode64
+    :crypto.mac(:hmac, :sha, secret, path)
+    |> Base.url_encode64()
   end
 
   @doc """
@@ -37,7 +37,7 @@ defmodule ThumborClient do
   def client(secret \\ false) do
     my_secret = secret
 
-    fn(options) ->
+    fn options ->
       ThumborClient.generate(options, my_secret)
     end
   end
